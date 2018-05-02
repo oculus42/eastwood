@@ -2,6 +2,9 @@
   "author": {
     "name": "Samuel Rouse"
   },
+  "bin": {
+    "eastwood": "./bin/eastwood.js"
+  },
   "bugs": {
     "url": "https://github.com/oculus42/eastwood/issues"
   },
@@ -23,5 +26,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "2.0.0-alpha.1"
+  "version": "2.0.0-alpha.2"
 }
