@@ -8,7 +8,6 @@
   "dependencies": {
     "node-cmd": "^3.0.0"
   },
-  "deprecated": false,
   "description": "Linter",
   "homepage": "https://github.com/oculus42/eastwood#readme",
   "keywords": [
@@ -24,5 +23,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.0"
+  "version": "2.0.0-alpha.1"
 }
