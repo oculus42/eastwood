@@ -15,4 +15,3 @@ npm install -g eastwood
 ```bash
 eastwood airbnb
 ```
-
