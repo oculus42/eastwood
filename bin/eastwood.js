@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Based on https://gist.github.com/oculus42/99092766633ca2451e9d6e2217a94a80
 
-const methods = require('../index');
+const methods = require('../src/methods');
 
 const defaultArgs = ['airbnb'];
 
