@@ -1,5 +1,7 @@
 # eastwood
 
+[![npm](https://img.shields.io/npm/v/eastwood.svg)](https://www.npmjs.com/package/eastwood)
+
 ## Do you feel linty?
 
 `eastwood` aims to provide automated install and setup of various linting rulesets.
@@ -15,3 +17,4 @@ npm install -g eastwood
 ```bash
 eastwood airbnb
 ```
+
