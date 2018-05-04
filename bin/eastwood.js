@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Based on https://gist.github.com/oculus42/99092766633ca2451e9d6e2217a94a80
 
-const methods = require('../src/methods');
+const configs = require('../src/configs');
 
 const defaultArgs = ['airbnb'];
 
@@ -13,22 +13,22 @@ if (!module.parent) {
     const origArgs = process.argv.slice(process.argv[0].endsWith('node') ? 2 : 1);
 
     const myArgs = !origArgs.length ? defaultArgs : origArgs;
-    const method = myArgs[0];
+    const configName = myArgs[0];
 
-    // Check if the argument is one of our named methods
-    if (methods[method]) {
+    // Check if the argument is one of our named configs
+    if (configs[configName]) {
         // Args arrive as strings, so this might need more work.
         // Arrays and Objects are probably not convenient.
-        console.log(`Installing ${method}`);
+        console.log(`Installing ${configName}`);
 
-        // Execute our method with the rest of the command-line arguments
-        methods[method].apply(null, myArgs.slice(1))
+        // Execute our configName with the rest of the command-line arguments
+        configs[configName].apply(null, myArgs.slice(1))
             .then(({data}) => console.log(data), err => console.error(err));
     } else {
-        // You could put a default here if you don't want it to use the methods above
-        console.log('The method you requested was not found.');
+        // You could put a default here if you don't want it to use the configs above
+        console.log('The config you requested was not found.');
     }
 } else {
     // Required by another file
-    module.exports = methods;
+    module.exports = configs;
 }
