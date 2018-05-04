@@ -6,7 +6,7 @@ const formatAirbnbBase = require('../formats/airbnb-base');
 const formatGoogle = require('../formats/google');
 
 const installPackages = (packageList = []) => new Promise((resolve, reject) => {
-  cmd.get(`npm install ${packageList.join(' ')}`, (err, data, stderr) => {
+  cmd.get(`npm install --save-dev ${packageList.join(' ')}`, (err, data, stderr) => {
     if (err) {
       reject(err);
       return;
