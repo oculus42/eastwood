@@ -2,23 +2,24 @@ const fs = require('fs');
 
 const pkgDir = require('pkg-dir');
 
-
-const hasEslintRc = () => {
+const hasPackageFile = (filename) => {
     return pkgDir()
         .then(dir => {
             if (dir === null) {
-                Promise.reject(new ReferenceError('Directory not found'));
+                return Promise.reject(new ReferenceError('Directory not found'));
             }
+            const path = `${dir}/${filename}`;
+
             return {
-                path: dir + '/.eslintrc',
-                exists: fs.existsSync(dir + '/.eslintrc')
+                path,
+                exists: fs.existsSync(path),
             };
         });
 };
 
-const editLintRc = (data, overwrite) => {
-    return hasEslintRc()
-        .then(({path, exists}) => {
+const editPackageFile = (filename, data, overwrite) => {
+    return hasPackageFile(filename)
+        .then(({ path, exists }) => {
             if (!exists || overwrite) {
                 return new Promise((resolve, reject) => {
                     fs.writeFile(path, data, (err) => {
@@ -26,20 +27,22 @@ const editLintRc = (data, overwrite) => {
                             reject(err);
                         }
                         resolve(true);
-                    })
+                    });
                 });
             }
+            return Promise.resolve(false);
         });
 };
 
-const chainEdit = (data, overwrite) =>
-    (log = { data: '' }) => editLintRc(data, overwrite)
+const chainEdit = (filename, data, overwrite) =>
+    (log = { data: '' }) => editPackageFile(filename, data, overwrite)
         .then((written) => {
-            log.data = `${log.data}\n${written?'.eslintrc written':'.eslintrc not written'}`;
+            log.data = `${log.data}\n${filename} ${written?'':'not '}written`;
             return log;
         });
 
 module.exports = {
     chainEdit,
-    editLintRc,
+    editPackageFile,
+    hasPackageFile,
 };
