@@ -42,6 +42,15 @@ const methods = {
         return installPackages(packages)
             .then(rcFile.chainEdit('{\n  "extends":"airbnb"\n}\n'))
     },
+    google: function () {
+        const packages = [
+            'eslint',
+            'eslint-config-google',
+        ];
+
+        return installPackages(packages)
+            .then(rcFile.chainEdit('{\n  "extends":"google"\n}\n'))
+    },
 };
 
 module.exports = methods;
