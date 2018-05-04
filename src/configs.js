@@ -1,54 +1,37 @@
 const cmd = require('node-cmd');
 const rcFile = require('./rcfile');
 
-const installPackages = (packageList = []) => {
-    return new Promise((resolve, reject) => {
-        cmd.get(`npm install ${packageList.join(' ')}`, (err, data, stderr) => {
-            if (err) {
-                reject(err);
-                return;
-            }
+const formatAirbnb = require('../formats/airbnb');
+const formatAirbnbBase = require('../formats/airbnb-base');
+const formatGoogle = require('../formats/google');
 
-            resolve({
-                data,
-                stderr,
-            });
-        });
+const installPackages = (packageList = []) => new Promise((resolve, reject) => {
+  cmd.get(`npm install ${packageList.join(' ')}`, (err, data, stderr) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    resolve({
+      data,
+      stderr,
     });
-};
+  });
+});
 
 const configs = {
-    airbnb: function () {
-        const packages = [
-            'eslint',
-            'eslint-plugin-import',
-            'eslint-plugin-react',
-            'eslint-plugin-jsx-a11y',
-            'eslint-config-airbnb',
-        ];
-
-        return installPackages(packages)
-            .then(rcFile.chainEdit('.eslintrc', '{\n  "extends":"airbnb"\n}\n'));
-    },
-    'airbnb-base': function () {
-        const packages = [
-            'eslint',
-            'eslint-plugin-import',
-            'eslint-config-airbnb-base',
-        ];
-
-        return installPackages(packages)
-            .then(rcFile.chainEdit('.eslintrc', '{\n  "extends":"airbnb"\n}\n'));
-    },
-    google: function () {
-        const packages = [
-            'eslint',
-            'eslint-config-google',
-        ];
-
-        return installPackages(packages)
-            .then(rcFile.chainEdit('.eslintrc', '{\n  "extends":"google"\n}\n'));
-    },
+  airbnb() {
+    return installPackages(formatAirbnb.packages)
+      .then(rcFile.chainEdit('.eslintrc', formatAirbnb.eslintrc))
+      .then(rcFile.chainEdit('.editorconfig', formatAirbnb.editorconfig));
+  },
+  'airbnb-base': () => installPackages(formatAirbnbBase.packages)
+    .then(rcFile.chainEdit('.eslintrc', formatAirbnbBase.eslintrc))
+    .then(rcFile.chainEdit('.editorconfig', formatAirbnbBase.editorconfig)),
+  google() {
+    return installPackages(formatGoogle.packages)
+      .then(rcFile.chainEdit('.eslintrc', formatGoogle.eslintrc));
+  },
 };
 
 module.exports = configs;
