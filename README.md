@@ -28,7 +28,7 @@ If no ruleset is provided, `airbnb` is used as default.
 ## Plans
 
 * Updating `.eslintrc` rather than just an initial write.
-* Updating ``.editorconfig` rather than just an initial write.
+* Updating `.editorconfig` rather than just an initial write.
 
 And maybe:
 
