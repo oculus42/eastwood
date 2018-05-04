@@ -32,6 +32,14 @@ const editLintRc = (data, overwrite) => {
         });
 };
 
+const chainEdit = (data, overwrite) =>
+    (log = { data: '' }) => editLintRc(data, overwrite)
+        .then((written) => {
+            log.data = `${log.data}\n${written?'.eslintrc written':'.eslintrc not written'}`;
+            return log;
+        });
+
 module.exports = {
-    editLintRc
+    chainEdit,
+    editLintRc,
 };

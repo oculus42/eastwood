@@ -30,13 +30,7 @@ const methods = {
         ];
 
         return installPackages(packages)
-            .then((log) => {
-                return rcFile.editLintRc('{\n  "extends":"airbnb"\n}\n')
-                    .then((written) => {
-                        return `${log.data}\n${written?'.eslintrc written':'.eslintrc not written'}`;
-                    })
-            })
-            .then(data => ({ data }));
+            .then(rcFile.chainEdit('{\n  "extends":"airbnb"\n}\n'))
     },
     'airbnb-base': function () {
         const packages = [
@@ -46,13 +40,7 @@ const methods = {
         ];
 
         return installPackages(packages)
-            .then((log) => {
-                return rcFile.editLintRc('{\n  "extends":"airbnb"\n}\n')
-                    .then((written) => {
-                        return `${log}\n${written?'.eslintrc written':'.eslintrc not written'}`;
-                    })
-            })
-            .then(data => ({ data }));
+            .then(rcFile.chainEdit('{\n  "extends":"airbnb"\n}\n'))
     },
 };
 
