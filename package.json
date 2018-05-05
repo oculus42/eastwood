@@ -22,7 +22,15 @@
   "description": "Linter",
   "homepage": "https://github.com/oculus42/eastwood#readme",
   "keywords": [
-    "lint"
+    "code style",
+    "ecmascript",
+    "eslint",
+    "jshint",
+    "lint",
+    "linter",
+    "javascript",
+    "styleguide"
+
   ],
   "license": "MIT",
   "main": "index.js",
