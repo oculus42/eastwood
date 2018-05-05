@@ -4,6 +4,7 @@ const rcFile = require('./rcfile');
 const formatAirbnb = require('../formats/airbnb');
 const formatAirbnbBase = require('../formats/airbnb-base');
 const formatGoogle = require('../formats/google');
+const formatReactApp = require('../formats/react-app');
 const formatStandardEslint = require('../formats/standard-eslint');
 
 const installPackages = (packageList = []) => new Promise((resolve, reject) => {
@@ -33,6 +34,8 @@ const configs = {
     return installPackages(formatGoogle.packages)
       .then(rcFile.chainEdit('.eslintrc', formatGoogle.eslintrc));
   },
+  'react-app': () => installPackages(formatReactApp.packages)
+    .then(rcFile.chainEdit('.eslintrc', formatReactApp.eslintrc)),
   standard() {
     return installPackages(['standard']);
   },

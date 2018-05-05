@@ -17,6 +17,7 @@ eastwood airbnb
 * `airbnb` - The [Airbnb Style Guide](http://airbnb.io/javascript/) as provided by [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb).
 * `airbnb-base` - Airbnb without React support as provided by [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base).
 * `google` - The [Google Style Guide](https://google.github.io/styleguide/jsguide.html) as provided by [eslint-config-google](https://www.npmjs.com/package/eslint-config-google).
+* `react-app` - The style from the [Create React App](https://github.com/facebook/create-react-app) as provided by [eslint-config-react-app](https://www.npmjs.com/package/eslint-config-react-app).
 * `standard` - The [Standard Style Guide](https://github.com/standard/standard) using the [standard](https://www.npmjs.com/package/standard) package.
 * `standard-eslint` - The [Standard Style Guide](https://github.com/standard/standard) as provided by [eslint-config-standard](https://www.npmjs.com/package/eslint-config-standard).
 
