@@ -5,7 +5,17 @@ const formatAirbnb = require('../formats/airbnb');
 const formatAirbnbBase = require('../formats/airbnb-base');
 const formatGoogle = require('../formats/google');
 const formatReactApp = require('../formats/react-app');
+const formatStandard = require('../formats/standard');
 const formatStandardEslint = require('../formats/standard-eslint');
+
+const internalConfigs = {
+  airbnb: formatAirbnb,
+  'airbnb-base': formatAirbnbBase,
+  google: formatGoogle,
+  'react-app': formatReactApp,
+  standard: formatStandard,
+  'standard-eslint': formatStandardEslint,
+};
 
 const installPackages = (packageList = []) => new Promise((resolve, reject) => {
   cmd.get(`npm install --save-dev ${packageList.join(' ')}`, (err, data, stderr) => {
@@ -21,26 +31,59 @@ const installPackages = (packageList = []) => new Promise((resolve, reject) => {
   });
 });
 
+const getLintString = config => (typeof config.eslintrc === 'string' ?
+  config.eslintrc :
+  JSON.stringify(config.eslintrc, null, 2));
+
+/**
+ *
+ * @param config
+ * @return {function}
+ */
+const makeLintHandler = (config) => {
+  // No .eslintrc? We're done here.
+  if (!config.eslintrc) {
+    return (log = { data: '' }) => ({ data: `${log.data}\nNo .eslintrc to write` });
+  }
+
+  // Handle Object vs string
+  return rcFile.chainEdit('.eslintrc', getLintString(config));
+};
+
+/**
+ *
+ * @param config
+ * @return {function}
+ */
+const makeEditorConfigHandler = (config) => {
+  // No .eslintrc? We're done here.
+  if (!config.editorconfig) {
+    return (log = { data: '' }) => ({ data: `${log.data}\nNo .editorconfig to write` });
+  }
+
+  // Handle Object vs string
+  return rcFile.chainEdit('.editorconfig', config.editorconfig);
+};
+
+
+const runConfig = config => installPackages(config.packages)
+  .then(makeLintHandler(config))
+  .then(makeEditorConfigHandler(config));
+
+
 const configs = {
   airbnb() {
-    return installPackages(formatAirbnb.packages)
-      .then(rcFile.chainEdit('.eslintrc', formatAirbnb.eslintrc))
-      .then(rcFile.chainEdit('.editorconfig', formatAirbnb.editorconfig));
+    return runConfig(formatAirbnb);
   },
-  'airbnb-base': () => installPackages(formatAirbnbBase.packages)
-    .then(rcFile.chainEdit('.eslintrc', formatAirbnbBase.eslintrc))
-    .then(rcFile.chainEdit('.editorconfig', formatAirbnbBase.editorconfig)),
+  'airbnb-base': () => runConfig(formatAirbnbBase),
   google() {
-    return installPackages(formatGoogle.packages)
-      .then(rcFile.chainEdit('.eslintrc', formatGoogle.eslintrc));
+    return runConfig(formatGoogle);
   },
-  'react-app': () => installPackages(formatReactApp.packages)
-    .then(rcFile.chainEdit('.eslintrc', formatReactApp.eslintrc)),
+  'react-app': () => runConfig(formatReactApp),
   standard() {
-    return installPackages(['standard']);
+    return runConfig(formatStandard);
   },
-  'standard-eslint': () => installPackages(formatStandardEslint.packages)
-    .then(rcFile.chainEdit('.eslintrc', formatStandardEslint.eslintrc)),
+  'standard-eslint': () => runConfig(formatStandardEslint),
 };
 
 module.exports = configs;
