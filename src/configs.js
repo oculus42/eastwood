@@ -8,15 +8,6 @@ const formatReactApp = require('../formats/react-app');
 const formatStandard = require('../formats/standard');
 const formatStandardEslint = require('../formats/standard-eslint');
 
-const internalConfigs = {
-  airbnb: formatAirbnb,
-  'airbnb-base': formatAirbnbBase,
-  google: formatGoogle,
-  'react-app': formatReactApp,
-  standard: formatStandard,
-  'standard-eslint': formatStandardEslint,
-};
-
 const installPackages = (packageList = []) => new Promise((resolve, reject) => {
   cmd.get(`npm install --save-dev ${packageList.join(' ')}`, (err, data, stderr) => {
     if (err) {
@@ -65,11 +56,9 @@ const makeEditorConfigHandler = (config) => {
   return rcFile.chainEdit('.editorconfig', config.editorconfig);
 };
 
-
 const runConfig = config => installPackages(config.packages)
   .then(makeLintHandler(config))
   .then(makeEditorConfigHandler(config));
-
 
 const configs = {
   airbnb() {
