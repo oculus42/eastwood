@@ -1,8 +1,8 @@
 #!/usr/bin/env node
+/* eslint no-console:0 */
 // Based on https://gist.github.com/oculus42/99092766633ca2451e9d6e2217a94a80
 
-const getConfig = require('../src/getConfig');
-const runConfig = require('../src/runConfig');
+const run = require('../index');
 
 const defaultArgs = ['airbnb'];
 
@@ -16,28 +16,8 @@ if (!module.parent) {
   const myArgs = !origArgs.length ? defaultArgs : origArgs;
   const configName = myArgs[0];
 
-  getConfig(configName)
-    .then((config) => {
-      console.log(`Installing ${configName}`);
-      return config;
-    })
-    .then(runConfig)
-    .then(({ data }) => console.log(data), err => console.error(err));
-
-  // // Check if the argument is one of our named configs
-  // if (configs[configName]) {
-  //   // Args arrive as strings, so this might need more work.
-  //   // Arrays and Objects are probably not convenient.
-  //   console.log(`Installing ${configName}`);
-  //
-  //   // Execute our configName with the rest of the command-line arguments
-  //   configs[configName].apply(null, myArgs.slice(1))
-  //     .then(({ data }) => console.log(data), err => console.error(err));
-  // } else {
-  //   // You could put a default here if you don't want it to use the configs above
-  //   console.log('The config you requested was not found.');
-  // }
+  run(configName);
 } else {
   // Required by another file
-  module.exports = getConfig;
+  module.exports = run;
 }
