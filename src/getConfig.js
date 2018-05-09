@@ -54,14 +54,18 @@ const getConfig = (configName) => {
     return Promise.resolve(internalConfigs[configName]);
   }
 
+  /*
+   * TODO - Support globally installed Eastwood configs
+   * The following doesn't find global or local packages
+   */
+  // return Promise.resolve(`eastwood-config-${configName}`).then(require);
+
   // Then check for external configs as packages installed as eastwood-config-*
   return pkgDir()
     .then((dir) => {
       if (dir === null) {
         return Promise.reject(new ReferenceError('Cannot locate package root to check for configs.'));
       }
-
-      // TODO - Support globally installed Eastwood configs
 
       // Construct external package name
       const path = `${dir}/node_modules/eastwood-config-${configName}`;
