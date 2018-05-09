@@ -18,6 +18,11 @@ const internalConfigs = {
   'standard-eslint': formatStandardEslint,
 };
 
+/**
+ * Get the parsed package.json from a module
+ * @param {String} path
+ * @return {Promise<object>}
+ */
 const getPackageJson = path => new Promise((resolve, reject) => {
   fs.readFile(`${path}/package.json`, 'utf8', (err, data) => {
     if (err) {
@@ -27,12 +32,16 @@ const getPackageJson = path => new Promise((resolve, reject) => {
   });
 });
 
-const extractExternalConfig = path => getPackageJson()
+/**
+ * Load an external config resource
+ * @param {string} path
+ * @return {Promise<object>}
+ */
+const extractExternalConfig = path => getPackageJson(path)
   .then(data => `${path}/${data.main || 'index.js'}`)
   // Take a stab at the default file location
   .catch(() => `${path}/index.js`)
   .then(require);
-
 
 /**
  * Get internal or external config object
@@ -61,7 +70,11 @@ const getConfig = (configName) => {
           // Check if error defined and the error code is "not exists"
           if (err) {
             // 34 = folder doesn't exist
-            reject(err.errno === 34 ? new Error('Config package not found.') : err);
+            if (err.code === 'ENOENT' || err.errno === 34) {
+              reject(new Error('Config package not found.'));
+            } else {
+              reject(err);
+            }
           }
           resolve(path);
         });
