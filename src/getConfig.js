@@ -61,6 +61,8 @@ const getConfig = (configName) => {
         return Promise.reject(new ReferenceError('Cannot locate package root to check for configs.'));
       }
 
+      // TODO - Support globally installed Eastwood configs
+
       // Construct external package name
       const path = `${dir}/node_modules/eastwood-config-${configName}`;
 
