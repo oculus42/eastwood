@@ -12,7 +12,7 @@ npm install -g eastwood
 eastwood airbnb
 ```
 
-### Supported Rulesets
+### Internal Rulesets
 
 * `airbnb` - The [Airbnb Style Guide](http://airbnb.io/javascript/) as provided by [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb).
 * `airbnb-base` - Airbnb without React support as provided by [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base).
@@ -23,13 +23,26 @@ eastwood airbnb
 
 If no ruleset is provided, `airbnb` is used as default.
 
+### External Rulesets
+
+Rulesets not in the internal list will cause Eastwood to check for a npm package prefixed with `eastwood-config-`.
+`eastwood-config-example` has been created to demonstrate this.
+
+```bash
+npm install --save-dev eastwood-config-example
+eastwood example
+```
+
+Currently, the package must be in the local `npm_modules` folder. Support for global npm_modules is upcoming.
+
 ## Plans
 
+* Support checks for globally installed `eastwood-config-*` packages
+* Writing an `.eslintrc` to the local directory
 * Updating `.eslintrc` rather than just an initial write.
 * Updating `.editorconfig` rather than just an initial write.
 
 And maybe:
 
 * Prettier?
-* Plugin support for configs?
 * Who knows?
