@@ -33,7 +33,7 @@ npm install --save-dev eastwood-config-example
 eastwood example
 ```
 
-Currently, the package must be in the local `npm_modules` folder. Support for global npm_modules is upcoming.
+Currently, the package must be in the local `npm_modules` folder. Support for globally installed modules is upcoming.
 
 ## Plans
 
