@@ -38,6 +38,3 @@ jspm_packages
 
 # Dev tools
 .idea
-
-# Package Lock Ruins Happiness (So far)
-package-lock.json
