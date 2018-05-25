@@ -12,6 +12,15 @@ npm install -g eastwood
 eastwood airbnb
 ```
 
+ESLint allows extending or overriding the `.eslintrc` file per directory.
+With the `--here` flag, Eastwood will install any required packages, but only add the appropriate `.eslintrc` to the current directory.
+
+```bash
+eastwood react-app
+cd lib
+eastwood airbnb --here
+```
+
 ### Internal Rulesets
 
 * `airbnb` - The [Airbnb Style Guide](http://airbnb.io/javascript/) as provided by [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb).
@@ -33,7 +42,9 @@ npm install --save-dev eastwood-config-example
 eastwood example
 ```
 
-Currently, the package must be in the local `npm_modules` folder. Support for globally installed modules is upcoming.
+Configs also work with the `--here` flag.
+
+Currently, the package must be in the local `npm_modules` folder. Support for globally installed modules is planned.
 
 ## Plans
 
