@@ -2,7 +2,10 @@ const fs = require('fs');
 
 const pkgDir = require('pkg-dir');
 
-const hasPackageFile = filename => pkgDir()
+const getBaseDir = (filename, options = {}) =>
+  (options.justHere ? Promise.resolve(process.cwd()) : pkgDir());
+
+const hasPackageFile = (filename, options) => getBaseDir(filename, options)
   .then((dir) => {
     if (dir === null) {
       return Promise.reject(new ReferenceError('Directory not found'));
@@ -15,9 +18,9 @@ const hasPackageFile = filename => pkgDir()
     };
   });
 
-const editPackageFile = (filename, data, overwrite) => hasPackageFile(filename)
+const editPackageFile = (filename, data, options) => hasPackageFile(filename, options)
   .then(({ path, exists }) => {
-    if (!exists || overwrite) {
+    if (!exists || options.overwrite) {
       return new Promise((resolve, reject) => {
         fs.writeFile(path, data, (err) => {
           if (err) {
@@ -30,8 +33,8 @@ const editPackageFile = (filename, data, overwrite) => hasPackageFile(filename)
     return Promise.resolve(false);
   });
 
-const chainEdit = (filename, data, overwrite) =>
-  (log = { data: '' }) => editPackageFile(filename, data, overwrite)
+const chainEdit = (filename, data, options) =>
+  (log = { data: '' }) => editPackageFile(filename, data, options)
     .then(written => ({
       data: `${log.data}\n${filename} ${written ? '' : 'not '}written`,
     }));

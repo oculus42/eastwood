@@ -13,10 +13,17 @@ if (!module.parent) {
   // Slice out the script from the args
   const origArgs = process.argv.slice(process.argv[0].endsWith('node') ? 2 : 1);
 
-  const myArgs = !origArgs.length ? defaultArgs : origArgs;
+  const noFlags = origArgs.filter(arg => arg.indexOf('--') !== 0);
+  const myArgs = !noFlags.length ? defaultArgs : noFlags;
   const configName = myArgs[0];
 
-  run(configName);
+  // This should be fleshed out better, but we only have one option to test right now.
+  const justHere = origArgs.includes('--here');
+
+  run({
+    configName,
+    justHere,
+  });
 } else {
   // Required by another file
   module.exports = run;
