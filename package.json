@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "node-cmd": "^3.0.0",
-    "pkg-dir": "^2.0.0"
+    "pkg-dir": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

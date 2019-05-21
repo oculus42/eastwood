@@ -63,7 +63,7 @@ const getConfig = (configName) => {
   // Then check for external configs as packages installed as eastwood-config-*
   return pkgDir()
     .then((dir) => {
-      if (dir === null) {
+      if (dir === undefined) {
         return Promise.reject(new ReferenceError('Cannot locate package root to check for configs.'));
       }
 

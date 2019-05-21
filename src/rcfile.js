@@ -7,7 +7,7 @@ const getBaseDir = (filename, options = {}) =>
 
 const hasPackageFile = (filename, options) => getBaseDir(filename, options)
   .then((dir) => {
-    if (dir === null) {
+    if (dir === undefined) {
       return Promise.reject(new ReferenceError('Directory not found'));
     }
     const path = `${dir}/${filename}`;
